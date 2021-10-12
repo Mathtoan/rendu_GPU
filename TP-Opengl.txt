@@ -1,0 +1,18 @@
+0 - Apprendre à lire le manuel et/ou la feuille d'aide :
+    ->  https://www.khronos.org/registry/OpenGL-Refpages/gl4/
+    ->  https://www.khronos.org/files/opengl46-quick-reference-card.pdf
+1 - Afficher une image avec de la couleur (suivre les TODO dans main.cpp)
+2 - Modifier le programme pour recharger le programme gpu lors d'un appui sur 'r'
+    -> Supprimer le programme GPU puis le recréer 
+3 - Afficher une texture sur le carré créé
+    -> utiliser load_texture(...) -> réfléchir à son fonctionnement et à l'endroit où l'utiliser...
+    -> créer un nouveau vertex et fragment shader pour afficher correctement l'image
+        -> variable varying et récupération de la texture : 'uniform sampler2D myTextureSampler;'
+4 - Ajouter dans le programme principal la création des deux programmes GPU (color et texture) et le changement de celui utilisé lors d'un appui sur 's'
+5 - Créer un nouveau fragment shader qui affiche l'image en niveau de gris, puis un pour faire un flou (ou autre opérateur de convolution)
+6 - Créer un nouveau fragment shader créant un cercle rouge au centre de l'image dont on pourra passer le rayon en uniform (glGetUniformLocation et glUniform1f)
+        -> on appelle cela un imposteur (très utilisé pour limiter la taille de la géométrie)
+7 - Ajouter un attribut de couleur à chaque sommet, avec 2 VBO ou avec 1 VBO.
+8 - Regarder dans le code la partie sur le culling
+9 - À partir du cercle comment simuleriez-vous une sphère?
+10 - Exemples de ce qui peux être réalisé sur un fragment shader : https://www.iquilezles.org/index.html -> articles + shadertoy
