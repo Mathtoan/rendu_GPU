@@ -71,9 +71,13 @@ int compile_shader(const char* shader_source, int shader_type)
 
   // TODO:
   // Créer un shader vide -> glCreateShader(GLenum)
+  GLint vertshader = glCreateShader(shader_type);
+  
   // Mettre le code voulu dans le shader
   //  -> glShaderSource(GLuint, 1, const GLchar * const *, NULL);
+  glShaderSource(vertshader, 1, &shader_source, NULL);
   // Compiler le shader -> glCompileShader(GLuint);
+  glCompileShader(vertshader);
 
   int shader_id;
   // FIN TODO
@@ -97,9 +101,15 @@ int creation_programme(const std::string& vertex_shader, const std::string& frag
 
   // TODO:
   // Récupérer le vertex et le fragment shader compilé (utilisez std::string::c_str)
+  int vertshader = compile_shader(vertex_shader.c_str(), GL_VERTEX_SHADER);
+  int fragmentshader = compile_shader(fragment_shader.c_str(), GL_FRAGMENT_SHADER);
   // Créer un nouveau programmme vide GPU -> glCreateProgram()
+  GLint program  = glCreateProgram();
   // Lier les deux shader au programme GPU -> glAttachShader(GLuint, GLuint)
+  glAttachShader(program, vertshader);
+  glAttachShader(program, fragmentshader);
   // Lier le programme a la CG -> glGetLinkProgram()
+  glLinkProgram(program);
 
   int shaderProgram;
   // FIN TODO
@@ -112,6 +122,8 @@ int creation_programme(const std::string& vertex_shader, const std::string& frag
 
   // TODO
   // Supprimer les deux shaders -> glDeleteShader(GLuint)
+  glDeleteShader(vertshader);
+  glDeleteShader(fragmentshader);
 
   // FIN TODO
 
