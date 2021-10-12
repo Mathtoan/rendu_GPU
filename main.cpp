@@ -147,9 +147,13 @@ void init()
     1.0f, -1.0f, 0.0f,
     -1.0f, -1.0f, 0.0f,
     -1.0f, 1.0f, 0.0f,
-  }
-
+  };
   // Créer un ficher d'entier non signé contenant les indices de sommets
+  unsigned int indices[] = {
+    0, 1, 3,
+    1, 2, 3
+  };
+  
   // Créer un VAO -> glGenVertexArrays(GLsizei, GLuint *)
   // Créer un VBO puis un EBO -> glGenBuffers(GLsizei, GLuint *)
   // Mettre le VAO en actif dans la machine d'état -> glBindVertexArray(GLuint)
