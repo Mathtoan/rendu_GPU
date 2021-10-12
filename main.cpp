@@ -135,6 +135,10 @@ void init()
 {
   // TODO :
   // Lire les fichiers contenant les programmes des shaders puis les utiliser pour créer le programme
+  std::string vertex_shader = lit_fichier("color.vs");
+  std::string fragment_shader = lit_fichier("color.fs");
+  int shaderProgramme = creation_programme(vertex_shader, fragment_shader);
+
   // Créer un tableau de float contenant les sommets à afficher
   // Créer un ficher d'entier non signé contenant les indices de sommets
   // Créer un VAO -> glGenVertexArrays(GLsizei, GLuint *)

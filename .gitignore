@@ -1,3 +1,4 @@
 opengl
 *.o
 build/
+.vscode/
