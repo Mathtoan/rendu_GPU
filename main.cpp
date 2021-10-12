@@ -102,12 +102,12 @@ int creation_programme(const std::string& vertex_shader, const std::string& frag
   // TODO:
   // Récupérer le vertex et le fragment shader compilé (utilisez std::string::c_str)
   int vertshader = compile_shader(vertex_shader.c_str(), GL_VERTEX_SHADER);
-  int fragmentshader = compile_shader(fragment_shader.c_str(), GL_FRAGMENT_SHADER);
+  int fragshader = compile_shader(fragment_shader.c_str(), GL_FRAGMENT_SHADER);
   // Créer un nouveau programmme vide GPU -> glCreateProgram()
   GLint program  = glCreateProgram();
   // Lier les deux shader au programme GPU -> glAttachShader(GLuint, GLuint)
   glAttachShader(program, vertshader);
-  glAttachShader(program, fragmentshader);
+  glAttachShader(program, fragshader);
   // Lier le programme a la CG -> glGetLinkProgram()
   glLinkProgram(program);
 
@@ -135,11 +135,20 @@ void init()
 {
   // TODO :
   // Lire les fichiers contenant les programmes des shaders puis les utiliser pour créer le programme
+
   std::string vertex_shader = lit_fichier("color.vs");
   std::string fragment_shader = lit_fichier("color.fs");
   int shaderProgramme = creation_programme(vertex_shader, fragment_shader);
 
   // Créer un tableau de float contenant les sommets à afficher
+
+  float vertices[] = {
+    1.0f, 1.0f, 0.0f,
+    1.0f, -1.0f, 0.0f,
+    -1.0f, -1.0f, 0.0f,
+    -1.0f, 1.0f, 0.0f,
+  }
+
   // Créer un ficher d'entier non signé contenant les indices de sommets
   // Créer un VAO -> glGenVertexArrays(GLsizei, GLuint *)
   // Créer un VBO puis un EBO -> glGenBuffers(GLsizei, GLuint *)
