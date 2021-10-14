@@ -9,6 +9,7 @@
 #include "stb_image.h"
 
 unsigned int VBO, VAO, EBO;
+int shaderProgram;
 
 // Renvoi le contenu d'un fichier
 std::string lit_fichier(const std::string& filename)
@@ -71,13 +72,13 @@ int compile_shader(const char* shader_source, int shader_type)
 
   // TODO:
   // Créer un shader vide -> glCreateShader(GLenum)
-  GLint vertshader = glCreateShader(shader_type);
+  GLint shader = glCreateShader(shader_type);
   
   // Mettre le code voulu dans le shader
   //  -> glShaderSource(GLuint, 1, const GLchar * const *, NULL);
-  glShaderSource(vertshader, 1, &shader_source, NULL);
+  glShaderSource(shader, 1, &shader_source, NULL);
   // Compiler le shader -> glCompileShader(GLuint);
-  glCompileShader(vertshader);
+  glCompileShader(shader);
 
   int shader_id;
   // FIN TODO
@@ -123,7 +124,7 @@ int creation_programme(const std::string& vertex_shader, const std::string& frag
   // TODO
   // Supprimer les deux shaders -> glDeleteShader(GLuint)
   glDeleteShader(vertshader);
-  glDeleteShader(fragmentshader);
+  glDeleteShader(fragshader);
 
   // FIN TODO
 
@@ -136,9 +137,9 @@ void init()
   // TODO :
   // Lire les fichiers contenant les programmes des shaders puis les utiliser pour créer le programme
 
-  std::string vertex_shader = lit_fichier("color.vs");
-  std::string fragment_shader = lit_fichier("color.fs");
-  int shaderProgramme = creation_programme(vertex_shader, fragment_shader);
+  std::string vertex_shader = lit_fichier("/Users/Toan/TP-Rendu/rendu_GPU/color.vs");
+  std::string fragment_shader = lit_fichier("/Users/Toan/TP-Rendu/rendu_GPU/color.fs");
+  int shaderProgram = creation_programme(vertex_shader, fragment_shader);
 
   // Créer un tableau de float contenant les sommets à afficher
 
@@ -153,20 +154,33 @@ void init()
     0, 1, 3,
     1, 2, 3
   };
-  
+
   // Créer un VAO -> glGenVertexArrays(GLsizei, GLuint *)
+  glGenVertexArrays(1, &VAO);
+
   // Créer un VBO puis un EBO -> glGenBuffers(GLsizei, GLuint *)
+  glGenBuffers(1, &VBO);
+  glGenBuffers(1, &EBO);
   // Mettre le VAO en actif dans la machine d'état -> glBindVertexArray(GLuint)
+  glBindVertexArray(VAO);
   // Remplir le VBO puis l'EBO en utilisant la machine d'état.
   //  -> glBindBuffer(GLenum, GLuint) et glBufferData(GLenum, GLsizeiptr, const GLvoid*, GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
   // Specifier comment parcourir les buffers crées (utilise le dernier VBO de type GL_ARRAY_BUFFER) :
   //  -> glVertexAttribPointer(GLuint, GLint, GLenum, GLboolean, glsizei, const void*)
   //      Pour l'indice, se référer au vertex shader !
+
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
   // Activer notre tableau de vertices : glEnableVertexAttribArray(GLuint)
   //
   // Le VAO permet de ne pas répéter les étapes de lecture des buffers à chaque affichage !
   // Les VAO peuvent être obligatoires dans certains cas.
 
+    glEnableVertexAttribArray(0);
   // END TODO
 
 
@@ -189,8 +203,11 @@ static void display_callback()
 
   // TODO :
   // Specifier le programme -> glUseProgram(GLuint)
+  glUseProgram(shaderProgram);
   // Specifier le VAO à utiliser -> glBindVertexArray(GLuint)
+  glBindVertexArray(VAO);
   // Demander affichage -> glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
   // END TODO
   glBindVertexArray(0);
   glutSwapBuffers ();
